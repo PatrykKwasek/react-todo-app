@@ -1,49 +1,71 @@
 import React, { useEffect, useState } from "react";
+
 import { Button } from "../../components/Button/Button";
+import { Footer } from "../../components/Footer/Footer";
 import { Input } from "../../components/Input/Input";
+import { ToDoList } from "../../components/List/ToDoList";
 
 export const Home = () => {
-  // const [notesData, setNotesData] = useState([]);
-  const [inputData, setInputData] = useState('');
-
-  const [exampleData, setExampleData] = useState([]);
+  const [noteData, setNoteData] = useState({
+    id: 5,
+    note: '',
+    completed: false
+  })
+  const [appData, setAppData] = useState([]);
 
   const getData = () => {
-    // App data
-    // const localStorageData = JSON.parse(localStorage.getItem('AppStore'));
-    // setNotesData(localStorageData);
-    // console.log('Variable localStorageData - ', localStorageData);
-
-    // Example data
-    const exampleStorageData = JSON.parse(localStorage.getItem('example'));
-    exampleStorageData && setExampleData(exampleStorageData);
-    console.log('Variable exampleStorageData - ', exampleStorageData);
+    const appStorageData = JSON.parse(localStorage.getItem('appData'));
+    appStorageData && setAppData(appStorageData);
+    console.log('Variable appStorageData - ', appStorageData);
   }
 
   useEffect(() => {
+    // Retrieve data from LocalStorage
     getData();
   }, [])
 
   useEffect(() => {
-    localStorage.setItem('example', JSON.stringify(exampleData));
-  }, [exampleData])
+    // Set data in LocalStorage to keep it up to date
+    localStorage.setItem('appData', JSON.stringify(appData));
+  }, [appData])
 
   const addNote = () => {
-    console.log('ADD NOTE');
-
-    const sampleData = [{
-      id: 4,
-      note: inputData,
-      completed: true
-    }]
-
-    setExampleData(exampleData.concat(sampleData));
-    setInputData('');
+    // Add note data to all notes array state
+    setAppData(appData.concat(noteData));
+    // Clear input data
+    setNoteData({
+      noteData,
+      note: ''
+    })
   }
 
+  const updateNote = (id) => {
+    // Hot to update specific note by ID ???
+    console.log('Update note');
+    setNoteData({
+      ...noteData,
+      note: noteData.note
+    })
+  }
+
+  const deleteNote = (id) => {
+    setAppData(appData.filter(note => note.id !== id))
+  }
+
+  const removeAllNotes = () => {
+    // Set app data array empty
+    setAppData([]);
+    // Remove data from LocalStorage
+    localStorage.removeItem('appData');
+  }
+
+  // Handler to take all data from input
   const handleInput = (e) => {
-    const { value } = e.target;
-    setInputData(value);
+    const { value, name } = e.target;
+    setNoteData({
+      ...noteData,
+      [name]: value
+    });
   }
 
   return (
@@ -52,29 +74,38 @@ export const Home = () => {
         <h2>ToDo App</h2>
       </header>
 
-      <Input type='text' value={inputData} placeholder='Add a task' onChange={handleInput}/>
-      <Button type='submit' txt='Add note' onClick={addNote}/>
+      {/* I think you should create form - it will be looking way more cleaner */}
+      <Input 
+        type='text' 
+        name='note' 
+        value={noteData.note} 
+        placeholder='Add a task' 
+        onChange={handleInput}
+      />
+
+      <Button 
+        type='submit' 
+        txt='Add note' 
+        onClick={addNote}
+      />
 
       <div>
-        {/* {console.log('Notes data', notesData)} */}
-        
-        {/* <h2>Notes</h2>
-        {
-          notesData.map((item, index) => (
-            <div key={`Note item-${index}`}>
-              <span>{item.note}</span>
-            </div>
-          ))
-        } */}
-
-        {
-          exampleData.map((item, index) => (
-            <div key={`Note item-${index}`}>
-              <span>{item.note}</span>
-            </div>
-          ))
-        }
+        <ToDoList 
+          notesData={appData} 
+          handleEditNote={updateNote} 
+          handleDeleteNote={deleteNote} 
+        />
       </div>
+
+      <div>
+        <Button 
+          type='button' 
+          txt='Remove all items' 
+          onClick={removeAllNotes} 
+        />
+      </div>
+
+      <Footer />
     </div>
   )
 }
