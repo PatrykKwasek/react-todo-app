@@ -1,6 +1,6 @@
 import React from "react";
 
-export const ToDoForm = ({children}) => {
+export const Form = ({children}) => {
   return (
     <form>
       {children}

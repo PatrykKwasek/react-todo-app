@@ -6,17 +6,16 @@ import { Input } from "../../components/Input/Input";
 import { ToDoList } from "../../components/List/ToDoList";
 
 export const Home = () => {
+  const [appData, setAppData] = useState([]);
   const [noteData, setNoteData] = useState({
-    id: 5,
+    id: null,
     note: '',
     completed: false
-  })
-  const [appData, setAppData] = useState([]);
+  });
 
   const getData = () => {
     const appStorageData = JSON.parse(localStorage.getItem('appData'));
     appStorageData && setAppData(appStorageData);
-    console.log('Variable appStorageData - ', appStorageData);
   }
 
   useEffect(() => {
@@ -27,14 +26,20 @@ export const Home = () => {
   useEffect(() => {
     // Set data in LocalStorage to keep it up to date
     localStorage.setItem('appData', JSON.stringify(appData));
+    setNoteData({
+      ...noteData,
+      id: appData.length + 1
+    })
   }, [appData])
 
+  // Done!!!
   const addNote = () => {
     // Add note data to all notes array state
     setAppData(appData.concat(noteData));
     // Clear input data
     setNoteData({
-      noteData,
+      ...noteData,
+      id: appData.length + 1,
       note: ''
     })
   }
@@ -48,6 +53,7 @@ export const Home = () => {
     })
   }
 
+  // Done!!!
   const deleteNote = (id) => {
     setAppData(appData.filter(note => note.id !== id))
   }
@@ -75,33 +81,33 @@ export const Home = () => {
       </header>
 
       {/* I think you should create form - it will be looking way more cleaner */}
-      <Input 
-        type='text' 
-        name='note' 
-        value={noteData.note} 
-        placeholder='Add a task' 
+      <Input
+        type='text'
+        name='note'
+        value={noteData.note}
+        placeholder='Add a task'
         onChange={handleInput}
       />
 
-      <Button 
-        type='submit' 
-        txt='Add note' 
+      <Button
+        type='submit'
+        txt='Add note'
         onClick={addNote}
       />
 
       <div>
-        <ToDoList 
-          notesData={appData} 
-          handleEditNote={updateNote} 
-          handleDeleteNote={deleteNote} 
+        <ToDoList
+          notesData={appData}
+          handleEditNote={updateNote}
+          handleDeleteNote={deleteNote}
         />
       </div>
 
       <div>
-        <Button 
-          type='button' 
-          txt='Remove all items' 
-          onClick={removeAllNotes} 
+        <Button
+          type='button'
+          txt='Remove all items'
+          onClick={removeAllNotes}
         />
       </div>
 
