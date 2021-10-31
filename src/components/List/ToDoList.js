@@ -11,7 +11,7 @@ export const ToDoList = ({ notesData, handleEditNote, handleDeleteNote }) => {
             key={item.id}
             item={item}
             handleEditNote={handleEditNote}
-            handleDeleteNote={handleDeleteNote}
+            handleDeleteNote={() => handleDeleteNote(item.id)}
           />
         ))
       }

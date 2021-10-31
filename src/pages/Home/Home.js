@@ -1,14 +1,11 @@
 import React, { useEffect, useState } from "react";
 
-import { Button } from "../../components/Button/Button";
-import { Footer } from "../../components/Footer/Footer";
-import { Input } from "../../components/Input/Input";
-import { ToDoList } from "../../components/List/ToDoList";
+import { HomeContent } from "./HomeContent";
 
 export const Home = () => {
   const [appData, setAppData] = useState([]);
   const [noteData, setNoteData] = useState({
-    id: null,
+    id: 0,
     note: '',
     completed: false
   });
@@ -32,14 +29,12 @@ export const Home = () => {
     })
   }, [appData])
 
-  // Done!!!
   const addNote = () => {
     // Add note data to all notes array state
     setAppData(appData.concat(noteData));
     // Clear input data
     setNoteData({
       ...noteData,
-      id: appData.length + 1,
       note: ''
     })
   }
@@ -53,9 +48,9 @@ export const Home = () => {
     })
   }
 
-  // Done!!!
   const deleteNote = (id) => {
-    setAppData(appData.filter(note => note.id !== id))
+    setAppData(appData.filter(note => note.id !== id));
+    console.log('ID', id);
   }
 
   const removeAllNotes = () => {
@@ -76,42 +71,15 @@ export const Home = () => {
 
   return (
     <div>
-      <header>
-        <h2>ToDo App</h2>
-      </header>
-
-      {/* I think you should create form - it will be looking way more cleaner */}
-      <Input
-        type='text'
-        name='note'
-        value={noteData.note}
-        placeholder='Add a task'
-        onChange={handleInput}
+      <HomeContent
+        noteData={noteData}
+        handleInput={handleInput}
+        addNote={addNote}
+        appData={appData}
+        updateNote={updateNote}
+        deleteNote={deleteNote}
+        removeAllNotes={removeAllNotes}
       />
-
-      <Button
-        type='submit'
-        txt='Add note'
-        onClick={addNote}
-      />
-
-      <div>
-        <ToDoList
-          notesData={appData}
-          handleEditNote={updateNote}
-          handleDeleteNote={deleteNote}
-        />
-      </div>
-
-      <div>
-        <Button
-          type='button'
-          txt='Remove all items'
-          onClick={removeAllNotes}
-        />
-      </div>
-
-      <Footer />
     </div>
   )
 }
