@@ -32,7 +32,8 @@ export const Home = () => {
     })
   }, [appData])
 
-  const addNote = () => {
+  const handleSubmit = (e) => {
+    e.preventDefault();
     // Add note data to all notes array state
     setAppData(appData.concat(noteData));
     // Clear input data
@@ -91,12 +92,12 @@ export const Home = () => {
       <HomeContent
         noteData={noteData}
         handleInput={handleInput}
-        addNote={addNote}
         appData={appData}
         updateNote={updateNote}
         deleteNote={deleteNote}
         removeAllNotes={removeAllNotes}
         handleCheckbox={handleCheckbox}
+        handleSubmit={handleSubmit}
       />
     </div>
   )

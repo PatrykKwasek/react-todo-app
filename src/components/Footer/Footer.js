@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Linkedin, GitHub } from 'react-feather';
+import { Linkedin, GitHub, Mail } from 'react-feather';
 import { Link } from '../Link/Link';
 
 export const Footer = () => {
@@ -28,6 +28,14 @@ export const Footer = () => {
             rel='noreferrer'
           >
             <GitHub />
+          </Link>
+        </p>
+
+        <p>
+          <Link
+            href='mailto:pkkwasek@gmail.com'
+          >
+            <Mail />
           </Link>
         </p>
       </div>
