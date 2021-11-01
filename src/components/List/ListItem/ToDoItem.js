@@ -3,12 +3,25 @@ import React from "react";
 import { Button } from "../../Button/Button";
 import { Checkbox } from "../../Checkbox/Checkbox";
 
-export const ToDoItem = ({ item, handleEditNote, handleDeleteNote }) => {
+import './ToDoItem.scss';
+
+export const ToDoItem = ({
+  item,
+  handleEditNote,
+  handleDeleteNote,
+  handleCheckbox,
+  className
+}) => {
   return (
     <div>
-      <Checkbox />
+      <Checkbox
+        item={item}
+        handleCheckbox={handleCheckbox}
+      />
 
-      <span>{item.note}</span>
+      <span className={className}>
+        {item.note}
+      </span>
 
       <Button
         type='text'

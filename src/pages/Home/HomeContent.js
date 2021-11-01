@@ -12,7 +12,8 @@ export const HomeContent = ({
   appData,
   updateNote,
   deleteNote,
-  removeAllNotes
+  // removeAllNotes
+  handleCheckbox
 }) => {
   return (
     <div>
@@ -40,16 +41,17 @@ export const HomeContent = ({
           notesData={appData}
           handleEditNote={updateNote}
           handleDeleteNote={deleteNote}
+          handleCheckbox={handleCheckbox}
         />
       </div>
 
-      <div>
+      {/* <div>
         <Button
           type='button'
           txt='Remove all items'
           onClick={removeAllNotes}
         />
-      </div>
+      </div> */}
 
       <Footer />
     </div>

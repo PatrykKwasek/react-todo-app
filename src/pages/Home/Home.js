@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 
 import { HomeContent } from "./HomeContent";
 
+import { v4 as uuidv4 } from "uuid";
+
 export const Home = () => {
   const [appData, setAppData] = useState([]);
   const [noteData, setNoteData] = useState({
@@ -25,7 +27,8 @@ export const Home = () => {
     localStorage.setItem('appData', JSON.stringify(appData));
     setNoteData({
       ...noteData,
-      id: appData.length + 1
+      // id: appData.length + 1
+      id: uuidv4()
     })
   }, [appData])
 
@@ -50,7 +53,6 @@ export const Home = () => {
 
   const deleteNote = (id) => {
     setAppData(appData.filter(note => note.id !== id));
-    console.log('ID', id);
   }
 
   const removeAllNotes = () => {
@@ -69,6 +71,21 @@ export const Home = () => {
     });
   }
 
+  const handleCheckbox = (id) => {
+    setAppData(
+      appData.map(item => {
+        console.log(item)
+        if (item.id === id) {
+          return {
+            ...item,
+            completed: !item.completed
+          };
+        }
+        return item;
+      })
+    )
+  }
+
   return (
     <div>
       <HomeContent
@@ -79,6 +96,7 @@ export const Home = () => {
         updateNote={updateNote}
         deleteNote={deleteNote}
         removeAllNotes={removeAllNotes}
+        handleCheckbox={handleCheckbox}
       />
     </div>
   )
