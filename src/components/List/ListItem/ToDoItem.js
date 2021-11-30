@@ -2,6 +2,7 @@ import React from "react";
 
 import { Button } from "../../Button/Button";
 import { Checkbox } from "../../Checkbox/Checkbox";
+import { Input } from "../../Input/Input";
 
 import './ToDoItem.scss';
 
@@ -19,9 +20,17 @@ export const ToDoItem = ({
         handleCheckbox={handleCheckbox}
       />
 
-      <span className={className}>
+      {/* NOTE!!! - Update button should change state and different function should save the content of the input... */}
+      {/* <span className={className}>
         {item.note}
-      </span>
+      </span> */}
+      <Input
+        type='text'
+        name='note'
+        value={item.note}
+        placeholder='Edit a task'
+      // onChange={handleInput}
+      />
 
       <Button
         type='text'

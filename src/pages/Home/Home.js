@@ -27,7 +27,6 @@ export const Home = () => {
     localStorage.setItem('appData', JSON.stringify(appData));
     setNoteData({
       ...noteData,
-      // id: appData.length + 1
       id: uuidv4()
     })
   }, [appData])
@@ -44,12 +43,7 @@ export const Home = () => {
   }
 
   const updateNote = (id) => {
-    // Hot to update specific note by ID ???
-    console.log('Update note');
-    setNoteData({
-      ...noteData,
-      note: noteData.note
-    })
+    console.log('Update')
   }
 
   const deleteNote = (id) => {
